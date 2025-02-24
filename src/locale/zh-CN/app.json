@@ -1,0 +1,20 @@
+{
+  "recent": "最近",
+  "tool": "工具",
+  "search": {
+    "placeholder": "搜索..."
+  },
+  "searchCommand": {
+    "placeholder": "搜索...",
+    "noResults": "没有找到结果。"
+  },
+  "tip": {
+    "title": "在浏览器中运行所有工具，无需担心隐私泄露，所有代码都是{openSource}的",
+    "openSource": "开源",
+    "warning": "外部链接不保证安全性"
+  },
+  "footer": {
+    "lastUpdated": "最后更新于",
+    "license": "基于 MIT 许可发布"
+  }
+}

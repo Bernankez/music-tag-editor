@@ -1,0 +1,20 @@
+{
+  "recent": "Recent",
+  "tool": "Tools",
+  "search": {
+    "placeholder": "Search..."
+  },
+  "searchCommand": {
+    "placeholder": "Search...",
+    "noResults": "No results found."
+  },
+  "tip": {
+    "title": "Run all tools in your browser. No need to worry about privacy leaks. The code is fully {openSource}.",
+    "openSource": "open source",
+    "warning": "The security of external links is not guaranteed."
+  },
+  "footer": {
+    "lastUpdated": "Last updated",
+    "license": "Released under the MIT License."
+  }
+}
