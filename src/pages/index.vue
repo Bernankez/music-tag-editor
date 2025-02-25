@@ -6,7 +6,7 @@ const sidebarRef = useTemplateRef("sidebarRef");
 </script>
 
 <template>
-  <Split ref="sidebarRef" direction="horizontal" :resize-trigger-size="12" class="h-full w-full">
+  <Split ref="sidebarRef" direction="horizontal" :resize-trigger-size="1" :resize-trigger-dragging-size="8" class="h-full w-full">
     <template #1>
       <aside>ff</aside>
     </template>

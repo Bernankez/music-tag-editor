@@ -5,19 +5,69 @@ import { computed, ref } from "vue";
 
 const props = withDefaults(defineProps<{
   direction?: "horizontal" | "vertical";
+  /** 分割条大小 */
   resizeTriggerSize?: number;
-  resizeTriggerSublineSize?: number;
+  /** 分割条可触发拖动区域大小 */
+  resizeTriggerDraggingSize?: number;
   min?: number | string;
   max?: number | string;
 }>(), {
   direction: "horizontal",
-  resizeTriggerSize: 12,
+  resizeTriggerSize: 8,
+  resizeTriggerDraggingSize: 6,
   min: 0,
   max: 1,
 });
 
 const cursor = computed(() => props.direction === "vertical" ? "ns-resize" : "ew-resize");
 const resizeWrapperStyle = computed(() => calculateStyle(props.resizeTriggerSize));
+const resizeWrapperDraggingStyle = computed(() => {
+  const size = `${props.resizeTriggerDraggingSize / 2}px`;
+  let sizeWidth: string, sizeHeight: string;
+  let beforeTop: string, beforeBottom: string, beforeLeft: string, beforeRight: string;
+  let afterTop: string, afterBottom: string, afterLeft: string, afterRight: string;
+  if (props.direction === "horizontal") {
+    sizeWidth = size;
+    sizeHeight = "100%";
+
+    beforeTop = "0";
+    beforeBottom = "0";
+    beforeRight = "100%";
+    beforeLeft = "unset";
+
+    afterTop = "0";
+    afterBottom = "0";
+    afterLeft = "100%";
+    afterRight = "unset";
+  } else {
+    sizeWidth = "100%";
+    sizeHeight = size;
+
+    beforeLeft = "0";
+    beforeRight = "0";
+    beforeBottom = "100%";
+    beforeTop = "unset";
+
+    afterLeft = "0";
+    afterRight = "0";
+    afterTop = "100%";
+    afterBottom = "unset";
+  }
+  return {
+    "--size-width": sizeWidth,
+    "--size-height": sizeHeight,
+
+    "--before-top": beforeTop,
+    "--before-bottom": beforeBottom,
+    "--before-left": beforeLeft,
+    "--before-right": beforeRight,
+
+    "--after-top": afterTop,
+    "--after-bottom": afterBottom,
+    "--after-left": afterLeft,
+    "--after-right": afterRight,
+  };
+});
 
 function calculateStyle(size: number) {
   return props.direction === "vertical"
@@ -144,13 +194,52 @@ function updateSize(e: MouseEvent) {
     <div :style="slot1Style" class="w-full overflow-auto">
       <slot name="1"></slot>
     </div>
-    <div ref="resizeTriggerRef" :style="{ ...resizeWrapperStyle, cursor }" class="group flex shrink-0 grow-0 items-center" :class="[props.direction === 'vertical' && 'flex-col']" @mousedown="onMouseDown">
-      <slot name="resize-trigger">
-        <div class="rounded-full bg-muted-foreground bg-opacity-50 transition-200 transition-all group-hover:bg-opacity-80" :class="[props.direction === 'vertical' ? 'w-12 h-full my-2px' : 'h-12 w-full mx-2px', dragging ? props.direction === 'vertical' ? 'w-15 bg-opacity-80' : 'h-15 bg-opacity-80' : '']"></div>
+    <div ref="resizeTriggerRef" :style="{ ...resizeWrapperStyle, ...resizeWrapperDraggingStyle, cursor }" class="group resize-trigger-wrapper relative flex shrink-0 grow-0 items-center" :class="[props.direction === 'vertical' && 'flex-col']" @mousedown="onMouseDown">
+      <slot name="resize-trigger" :dragging>
+        <div class="rounded-full bg-muted-foreground bg-opacity-50 transition-200 transition-all group-hover:bg-opacity-80" :class="[props.direction === 'vertical' ? 'w-12 h-full' : 'h-12 w-full', dragging ? props.direction === 'vertical' ? 'w-15 bg-opacity-80' : 'h-15 bg-opacity-80' : '']"></div>
       </slot>
     </div>
-    <div class="w-full overflow-auto">
+    <div class="h-full w-full overflow-auto">
       <slot name="2"></slot>
     </div>
   </div>
 </template>
+
+<style scoped>
+.resizeTriggerWrapper {
+  --size-width: 0;
+  --size-height: 0;
+
+  --before-top: 0;
+  --before-bottom: 0;
+  --before-left: 0;
+  --before-right: 0;
+
+  --after-top: 0;
+  --after-bottom: 0;
+  --after-left: 0;
+  --after-right: 0;
+}
+
+.resize-trigger-wrapper::before {
+  content: "";
+  position: absolute;
+  top: var(--before-top);
+  right: var(--before-right);
+  bottom: var(--before-bottom);
+  left: var(--before-left);
+  width: var(--size-width);
+  height: var(--size-height);
+}
+
+.resize-trigger-wrapper::after {
+  content: "";
+  position: absolute;
+  top: var(--after-top);
+  right: var(--after-right);
+  bottom: var(--after-bottom);
+  left: var(--after-left);
+  width: var(--size-width);
+  height: var(--size-height);
+}
+</style>
