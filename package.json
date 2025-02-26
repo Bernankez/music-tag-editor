@@ -16,6 +16,7 @@
     "@bernankez/utils": "^0.6.4",
     "@tanstack/vue-table": "^8.21.2",
     "@unocss/reset": "^66.0.0",
+    "@vee-validate/zod": "^4.15.0",
     "@vueuse/core": "^12.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -29,9 +30,11 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "unocss": "^66.0.0",
+    "vee-validate": "^4.15.0",
     "vue": "^3.5.13",
     "vue-i18n": "^11.1.1",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@bernankez/eslint-config": "^3.0.0",
