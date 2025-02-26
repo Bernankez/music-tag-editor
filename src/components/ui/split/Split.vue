@@ -9,7 +9,17 @@ const props = withDefaults(defineProps<{
   resizeTriggerSize?: number;
   /** 分割条可触发拖动区域大小 */
   resizeTriggerDraggingSize?: number;
+  /**
+   * 最小尺寸
+   * string - 为string时，单位px - '230px' | '230'
+   * number - 为number时，作为百分比 - 0.23（23%）
+   */
   min?: number | string;
+  /**
+   * 最大尺寸
+   * string - 为string时，单位px - '230px' | '230'
+   * number - 为number时，作为百分比 - 0.23（23%）
+   */
   max?: number | string;
 }>(), {
   direction: "horizontal",
@@ -150,7 +160,7 @@ function depx(px: string | number) {
   return px;
 }
 
-function updateSize(e: MouseEvent) {
+function updateSize(e?: MouseEvent) {
   const containerRect = resizeTriggerRef.value?.parentElement?.getBoundingClientRect();
   if (!containerRect) {
     return;
@@ -164,10 +174,17 @@ function updateSize(e: MouseEvent) {
           ? containerUsableWidth
           : containerUsableHeight;
 
-  const newPxSize
+  let newPxSize: number;
+  if (e) {
+    newPxSize
         = direction === "horizontal"
-          ? e.clientX - containerRect.left - offset.value
-          : e.clientY - containerRect.top + offset.value;
+        ? e.clientX - containerRect.left - offset.value
+        : e.clientY - containerRect.top + offset.value;
+  } else if (typeof size.value === "string") {
+    newPxSize = depx(size.value);
+  } else {
+    newPxSize = size.value * containerUsableSize;
+  }
 
   const { min, max } = props;
 
@@ -187,10 +204,16 @@ function updateSize(e: MouseEvent) {
     size.value = nextPxSize / containerUsableSize;
   }
 }
+
+const wrapperElRef = useTemplateRef("wrapperElRef");
+
+useResizeObserver(wrapperElRef, () => {
+  updateSize();
+});
 </script>
 
 <template>
-  <div class="flex" :class="[direction === 'vertical' ? 'flex-col' : '']">
+  <div ref="wrapperElRef" class="flex" :class="[direction === 'vertical' ? 'flex-col' : '']">
     <div :style="slot1Style" class="w-full overflow-auto">
       <slot name="1"></slot>
     </div>
