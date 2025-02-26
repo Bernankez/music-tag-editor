@@ -2,6 +2,7 @@
 import { useMergedState } from "@bernankez/utils/vue";
 import { useEventListener } from "@vueuse/core";
 import { computed, ref } from "vue";
+import { useDisplayDirective } from "~/src/composables/useDisplayDirective";
 
 const props = withDefaults(defineProps<{
   direction?: "horizontal" | "vertical";
@@ -21,12 +22,14 @@ const props = withDefaults(defineProps<{
    * number - 为number时，作为百分比 - 0.23（23%）
    */
   max?: number | string;
+  displayDirective?: "if" | "show";
 }>(), {
   direction: "horizontal",
   resizeTriggerSize: 8,
   resizeTriggerDraggingSize: 6,
   min: 0,
   max: 1,
+  displayDirective: "if",
 });
 
 const cursor = computed(() => props.direction === "vertical" ? "ns-resize" : "ew-resize");
@@ -210,14 +213,25 @@ const wrapperElRef = useTemplateRef("wrapperElRef");
 useResizeObserver(wrapperElRef, () => {
   updateSize();
 });
+
+const uncontrolledCollapsed = ref(false);
+const controlledCollapsed = defineModel<boolean>("collapsed", {
+  default: undefined,
+});
+const collapsed = useMergedState(controlledCollapsed, uncontrolledCollapsed);
+const { showValue, ifValue } = useDisplayDirective(() => !collapsed.value, () => props.displayDirective);
+
+defineExpose({
+  updateSize,
+});
 </script>
 
 <template>
   <div ref="wrapperElRef" class="flex" :class="[direction === 'vertical' ? 'flex-col' : '']">
-    <div :style="slot1Style" class="w-full overflow-auto">
+    <div v-if="ifValue" v-show="showValue" :style="slot1Style" class="w-full overflow-auto">
       <slot name="1"></slot>
     </div>
-    <div ref="resizeTriggerRef" :style="{ ...resizeWrapperStyle, ...resizeWrapperDraggingStyle, cursor }" class="group resize-trigger-wrapper relative flex shrink-0 grow-0 items-center" :class="[props.direction === 'vertical' && 'flex-col']" @mousedown="onMouseDown">
+    <div v-if="ifValue" v-show="showValue" ref="resizeTriggerRef" :style="{ ...resizeWrapperStyle, ...resizeWrapperDraggingStyle, cursor }" class="group resize-trigger-wrapper relative flex shrink-0 grow-0 items-center" :class="[props.direction === 'vertical' && 'flex-col']" @mousedown="onMouseDown">
       <slot name="resize-trigger" :dragging>
         <div class="rounded-full bg-muted-foreground bg-opacity-50 transition-200 transition-all group-hover:bg-opacity-80" :class="[props.direction === 'vertical' ? 'w-12 h-full' : 'h-12 w-full', dragging ? props.direction === 'vertical' ? 'w-15 bg-opacity-80' : 'h-15 bg-opacity-80' : '']"></div>
       </slot>
