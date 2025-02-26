@@ -4,11 +4,11 @@ import { defineStore } from "pinia";
 export const useAppStore = defineStore("app", () => {
   const locale = ref<AvailableLocales>();
 
-  const layout = ref<number[]>([20, 80]);
+  const layoutSize = ref("300px");
 
   return {
     locale,
-    layout,
+    layoutSize,
   };
 }, {
   persist: true,
