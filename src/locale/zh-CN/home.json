@@ -1,6 +1,42 @@
 {
   "sidebar": {
     "expand": "展开侧边栏",
-    "collapse": "收起侧边栏"
+    "collapse": "收起侧边栏",
+    "title": {
+      "title": "标题："
+    },
+    "artist": {
+      "title": "艺术家："
+    },
+    "album": {
+      "title": "专辑："
+    },
+    "year": {
+      "title": "年份："
+    },
+    "track": {
+      "title": "音轨："
+    },
+    "genre": {
+      "title": "流派："
+    },
+    "comment": {
+      "title": "注释："
+    },
+    "albumArtist": {
+      "title": "专辑艺术家："
+    },
+    "composer": {
+      "title": "作曲家："
+    },
+    "discNumber": {
+      "title": "光盘编号："
+    },
+    "compilation": {
+      "title": "合辑："
+    },
+    "covers": {
+      "title": "封面："
+    }
   }
 }

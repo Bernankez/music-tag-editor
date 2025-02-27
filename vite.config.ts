@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { UtilsResolver } from "@bernankez/utils/resolver";
 import vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
 import UnoCSS from "unocss/vite";
 import AutoImport from "unplugin-auto-import/vite";
 import Info from "unplugin-info/vite";
@@ -12,6 +13,7 @@ import VueDevTools from "vite-plugin-vue-devtools";
 export default defineConfig({
   plugins: [
     vue(),
+    vueJsx(),
     UnoCSS(),
     AutoImport({
       imports: [

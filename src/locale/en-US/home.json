@@ -1,6 +1,42 @@
 {
   "sidebar": {
     "expand": "Expand the sidebar",
-    "collapse": "Collapse the sidebar"
+    "collapse": "Collapse the sidebar",
+    "title": {
+      "title": "TITLE:"
+    },
+    "artist": {
+      "title": "ARTIST:"
+    },
+    "album": {
+      "title": "ALBUM:"
+    },
+    "year": {
+      "title": "YEAR:"
+    },
+    "track": {
+      "title": "TRACK:"
+    },
+    "genre": {
+      "title": "GENRE:"
+    },
+    "comment": {
+      "title": "COMMENT:"
+    },
+    "albumArtist": {
+      "title": "ALBUM ARTIST:"
+    },
+    "composer": {
+      "title": "COMPOSER:"
+    },
+    "discNumber": {
+      "title": "DISK NUMBER:"
+    },
+    "compilation": {
+      "title": "COMPILATION:"
+    },
+    "covers": {
+      "title": "COVERS:"
+    }
   }
 }
