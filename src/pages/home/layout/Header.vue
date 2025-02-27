@@ -10,7 +10,7 @@ const { t } = useI18n();
     <Button class="shrink-0" :title="collapsed ? t('home.sidebar.expand') : t('home.sidebar.collapse')" variant="ghost" size="icon" @click="collapsed = !collapsed">
       <div class="i-ri:side-bar-line"></div>
     </Button>
-    <div class="flex items-center gap-sm">
+    <div class="flex items-center gap-2">
       <Settings>
         <Button class="shrink-0" :title="t('settings.title')" variant="ghost" size="icon">
           <div class="i-ri:settings-4-line"></div>
