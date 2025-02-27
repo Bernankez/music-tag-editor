@@ -1,5 +1,7 @@
-import app from "./app.json";
+import home from "./home.json";
+import settings from "./settings.json";
 
 export const enUS = {
-  app,
+  home,
+  settings,
 };

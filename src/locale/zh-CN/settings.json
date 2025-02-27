@@ -1,0 +1,16 @@
+{
+  "title": "设置",
+  "cursor": {
+    "title": "使用指针光标",
+    "description": "悬停在任何可交互元素上时将光标改为指针样式"
+  },
+  "theme": {
+    "title": "主题",
+    "system": "跟随系统",
+    "light": "亮色",
+    "dark": "暗色"
+  },
+  "language": {
+    "title": "语言"
+  }
+}

@@ -4,11 +4,11 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import { router } from "./router";
 import { i18n } from "./utils/i18n";
+// Style reset should before unocss
+import "@unocss/reset/tailwind.css";
 import "./styles/var.css";
 import "./styles/global.css";
 import "./styles/index.css";
-// Style reset should before unocss
-import "@unocss/reset/tailwind.css";
 import "virtual:uno.css";
 
 const app = createApp(App);

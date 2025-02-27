@@ -1,0 +1,16 @@
+{
+  "title": "Settings",
+  "cursor": {
+    "title": "Use pointer cursor",
+    "description": "Change the cursor to pointer style when hovering over any interactive element"
+  },
+  "theme": {
+    "title": "Theme",
+    "system": "Follow System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "title": "Language"
+  }
+}

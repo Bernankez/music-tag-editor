@@ -11,6 +11,9 @@ export default defineConfig({
     scale: 1.5,
   })],
   transformers: [transformerDirectives()],
+  rules: [
+    ["cursor-pointer", { cursor: "var(--pointer)" }],
+  ],
   shortcuts: [
     {
       "animate-accordion-up": "accordion-up",
