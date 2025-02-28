@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
   displayDirective: "if",
 });
 
-const cursor = computed(() => props.direction === "vertical" ? "ns-resize" : "ew-resize");
+const cursor = computed(() => props.direction === "vertical" ? "row-resize" : "col-resize");
 const resizeWrapperStyle = computed(() => calculateStyle(props.resizeTriggerSize));
 const resizeWrapperDraggingStyle = computed(() => {
   const size = `${props.resizeTriggerDraggingSize / 2}px`;
