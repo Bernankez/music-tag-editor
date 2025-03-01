@@ -44,7 +44,7 @@ onMounted(async () => {
     </template>
     <template #2>
       <Header />
-      <main>
+      <main class="w-200">
         <!-- <FileTable :columns :data /> -->
         <MiniTable :columns :data />
       </main>

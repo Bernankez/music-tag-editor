@@ -25,9 +25,9 @@ const table = useVueTable({
     <Table>
       <TableHeader>
         <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-          <TableHead v-for="header in headerGroup.headers" :key="header.id" :col-span="header.colSpan" :style="{ width: header.getSize() }">
+          <TableHead v-for="(header, i) in headerGroup.headers" :key="header.id" :col-span="header.colSpan" :style="{ width: `${header.getSize()}px` }" class="relative">
             <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
-            <!-- <div class="resizer h-5 w-1 bg-black" :style="{ transform: header.column.getIsResizing() ? `translateX(${table.getState().columnSizingInfo.deltaOffset ?? 0})` : '' }" @doubleclick="() => header.column.resetSize()" @mousedown="header.getResizeHandler()" @touchstart="header.getResizeHandler()"></div> -->
+            <div v-if="i !== headerGroup.headers.length - 1" class="resizer absolute top-0 h-full w-px touch-none select-none bg-border hover:cursor-col-resize" :class="[table.options.columnResizeDirection === 'ltr' ? 'right-0' : 'left-0']" @dblclick="header.column.resetSize" @mousedown="header.getResizeHandler()($event)" @touchstart="header.getResizeHandler()($event)"></div>
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -50,3 +50,24 @@ const table = useVueTable({
     </Table>
   </div>
 </template>
+
+<style scoped>
+.resizer::before,
+.resizer::after {
+  content: "";
+  z-index: 1;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.resizer::before {
+  right: 0;
+}
+
+.resizer::after {
+  left: 0;
+}
+</style>
