@@ -5,11 +5,11 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <aside class="h-full overflow-y-auto bg-secondary p-sm">
+  <aside class="h-full overflow-y-auto bg-secondary p-sm text-secondary-foreground">
     <form class="grid grid-cols-4 gap-sm">
       <FormField v-slot="{ componentField }" name="title">
         <FormItem class="col-span-4">
-          <FormLabel>{{ t("home.sidebar.title.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.title.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -17,7 +17,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="artist">
         <FormItem class="col-span-4">
-          <FormLabel>{{ t("home.sidebar.artist.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.artist.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -25,7 +25,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="album">
         <FormItem class="col-span-4">
-          <FormLabel>{{ t("home.sidebar.album.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.album.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -33,7 +33,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="year">
         <FormItem>
-          <FormLabel>{{ t("home.sidebar.year.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.year.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -41,7 +41,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="track">
         <FormItem>
-          <FormLabel>{{ t("home.sidebar.track.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.track.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -49,7 +49,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="genre">
         <FormItem class="col-span-2">
-          <FormLabel>{{ t("home.sidebar.genre.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.genre.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -57,7 +57,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="comment">
         <FormItem class="col-span-4">
-          <FormLabel>{{ t("home.sidebar.comment.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.comment.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -65,7 +65,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="albumArtist">
         <FormItem class="col-span-4">
-          <FormLabel>{{ t("home.sidebar.albumArtist.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.albumArtist.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -73,7 +73,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="composer">
         <FormItem class="col-span-4">
-          <FormLabel>{{ t("home.sidebar.composer.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.composer.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -81,7 +81,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="discNumber">
         <FormItem class="col-span-2">
-          <FormLabel>{{ t("home.sidebar.discNumber.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.discNumber.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -89,7 +89,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="compilation">
         <FormItem class="col-span-2">
-          <FormLabel>{{ t("home.sidebar.compilation.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.compilation.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>
@@ -97,7 +97,7 @@ const { t } = useI18n();
       </FormField>
       <FormField v-slot="{ componentField }" name="covers">
         <FormItem class="col-span-4">
-          <FormLabel>{{ t("home.sidebar.covers.title") }}</FormLabel>
+          <FormLabel>{{ t("audio.tag.covers.title") }}</FormLabel>
           <FormControl>
             <Input v-bind="componentField" class="bg-background" />
           </FormControl>

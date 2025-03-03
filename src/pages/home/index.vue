@@ -1,37 +1,11 @@
 <script setup lang="ts">
-import type { Payment } from "./layout/FileTable/FileTableColumn";
-import { columns } from "./layout/FileTable/FileTableColumn";
+import FileTable from "./layout/FileTable/FileTable.vue";
 import Header from "./layout/Header.vue";
 import Sidebar from "./layout/Sidebar.vue";
+import StatusBar from "./layout/StatusBar.vue";
 
 const appStore = useAppStore();
 const { layoutSize, collapsed } = storeToRefs(appStore);
-
-const data = ref<Payment[]>([]);
-
-const payments: Payment[] = [
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "489e1d42",
-    amount: 125,
-    status: "processing",
-    email: "example@gmail.com",
-  },
-];
-
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return payments;
-}
-
-onMounted(async () => {
-  data.value = await getData();
-});
 </script>
 
 <template>
@@ -43,11 +17,13 @@ onMounted(async () => {
       <div class="h-full w-px bg-border"></div>
     </template>
     <template #2>
-      <Header />
-      <main class="w-200">
-        <!-- <FileTable :columns :data /> -->
-        <MiniTable :columns :data />
-      </main>
+      <div class="h-full flex flex-col">
+        <Header />
+        <main class="h-full overflow-auto">
+          <FileTable />
+        </main>
+        <StatusBar />
+      </div>
     </template>
   </Split>
 </template>

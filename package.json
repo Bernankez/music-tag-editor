@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "cva": "npm:class-variance-authority@^0.7.1",
     "lucide-vue-next": "^0.475.0",
+    "mp3tag.js": "^3.11.2",
     "naive-ui": "^2.41.0",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",

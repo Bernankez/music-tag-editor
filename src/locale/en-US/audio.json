@@ -1,0 +1,58 @@
+{
+  "id": {
+    "title": "ID"
+  },
+  "filepath": {
+    "title": "PATH"
+  },
+  "filename": {
+    "title": "FILENAME"
+  },
+  "size": {
+    "title": "SIZE"
+  },
+  "duration": {
+    "title": "DURATION"
+  },
+  "updateTime": {
+    "title": "UPDATE TIME"
+  },
+  "tag": {
+    "title": {
+      "title": "TITLE"
+    },
+    "artist": {
+      "title": "ARTIST"
+    },
+    "album": {
+      "title": "ALBUM"
+    },
+    "year": {
+      "title": "YEAR"
+    },
+    "track": {
+      "title": "TRACK"
+    },
+    "genre": {
+      "title": "GENRE"
+    },
+    "comment": {
+      "title": "COMMENT"
+    },
+    "albumArtist": {
+      "title": "ALBUM ARTIST"
+    },
+    "composer": {
+      "title": "COMPOSER"
+    },
+    "discNumber": {
+      "title": "DISK NUMBER"
+    },
+    "compilation": {
+      "title": "COMPILATION"
+    },
+    "covers": {
+      "title": "COVERS"
+    }
+  }
+}

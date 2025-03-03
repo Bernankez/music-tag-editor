@@ -35,6 +35,9 @@ importers:
       lucide-vue-next:
         specifier: ^0.475.0
         version: 0.475.0(vue@3.5.13(typescript@5.7.3))
+      mp3tag.js:
+        specifier: ^3.11.2
+        version: 3.11.2
       naive-ui:
         specifier: ^2.41.0
         version: 2.41.0(vue@3.5.13(typescript@5.7.3))
@@ -2915,6 +2918,9 @@ packages:
   morgan@1.9.1:
     resolution: {integrity: sha512-HQStPIV4y3afTiCYVxirakhlCfGkI161c76kKFca7Fk1JusM//Qeo1ej2XaMniiNeaZklMVrh3vTtIzpzwbpmA==}
     engines: {node: '>= 0.8.0'}
+
+  mp3tag.js@3.11.2:
+    resolution: {integrity: sha512-1vzu++d5LTXaCrCcF0qb9iPCh1FPOUnnRQeF9SQD84Zrf+yzRTtrpg6M08cSJfIKpbwoZhe6tZNtyuTKcM2gXw==}
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -7413,6 +7419,8 @@ snapshots:
       on-headers: 1.0.2
     transitivePeerDependencies:
       - supports-color
+
+  mp3tag.js@3.11.2: {}
 
   mrmime@2.0.1: {}
 

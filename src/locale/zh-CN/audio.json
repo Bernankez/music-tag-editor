@@ -1,0 +1,58 @@
+{
+  "id": {
+    "title": "ID"
+  },
+  "filepath": {
+    "title": "路径"
+  },
+  "filename": {
+    "title": "文件名"
+  },
+  "size": {
+    "title": "大小"
+  },
+  "duration": {
+    "title": "长度"
+  },
+  "updateTime": {
+    "title": "修改时间"
+  },
+  "tag": {
+    "title": {
+      "title": "标题"
+    },
+    "artist": {
+      "title": "艺术家"
+    },
+    "album": {
+      "title": "专辑"
+    },
+    "year": {
+      "title": "年份"
+    },
+    "track": {
+      "title": "音轨"
+    },
+    "genre": {
+      "title": "流派"
+    },
+    "comment": {
+      "title": "注释"
+    },
+    "albumArtist": {
+      "title": "专辑艺术家"
+    },
+    "composer": {
+      "title": "作曲家"
+    },
+    "discNumber": {
+      "title": "光盘编号"
+    },
+    "compilation": {
+      "title": "合辑"
+    },
+    "covers": {
+      "title": "封面"
+    }
+  }
+}

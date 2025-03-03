@@ -21,34 +21,32 @@ const table = useVueTable({
 </script>
 
 <template>
-  <div>
-    <Table>
-      <TableHeader>
-        <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-          <TableHead v-for="(header, i) in headerGroup.headers" :key="header.id" :col-span="header.colSpan" :style="{ width: `${header.getSize()}px` }" class="relative">
-            <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
-            <div v-if="i !== headerGroup.headers.length - 1" class="resizer absolute top-0 h-full w-px touch-none select-none bg-border hover:cursor-col-resize" :class="[table.options.columnResizeDirection === 'ltr' ? 'right-0' : 'left-0']" @dblclick="header.column.resetSize" @mousedown="header.getResizeHandler()($event)" @touchstart="header.getResizeHandler()($event)"></div>
-          </TableHead>
+  <Table :style="{ width: `${table.getCenterTotalSize()}px` }">
+    <TableHeader>
+      <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+        <TableHead v-for="(header, i) in headerGroup.headers" :key="header.id" :col-span="header.colSpan" :style="{ width: `${header.getSize()}px` }" class="relative">
+          <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
+          <div class="resizer absolute top-0 h-full w-px touch-none select-none bg-border hover:cursor-col-resize" :class="[table.options.columnResizeDirection === 'ltr' ? 'right-0' : 'left-0', i === headerGroup.headers.length - 1 && 'overflow-hidden']" @dblclick="header.column.resetSize" @mousedown="header.getResizeHandler()($event)" @touchstart="header.getResizeHandler()($event)"></div>
+        </TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <template v-if="table.getRowModel().rows.length">
+        <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :data-state="row.getIsSelected() ? 'selected' : undefined">
+          <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" :style="{ width: `${cell.column.getSize()}px` }">
+            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+          </TableCell>
         </TableRow>
-      </TableHeader>
-      <TableBody>
-        <template v-if="table.getRowModel().rows.length">
-          <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :data-state="row.getIsSelected() ? 'selected' : undefined">
-            <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-              <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-            </TableCell>
-          </TableRow>
-        </template>
-        <template v-else>
-          <TableRow>
-            <TableCell :colspan="columns.length">
-              No results.
-            </TableCell>
-          </TableRow>
-        </template>
-      </TableBody>
-    </Table>
-  </div>
+      </template>
+      <template v-else>
+        <TableRow>
+          <TableCell :colspan="columns.length">
+            No results.
+          </TableCell>
+        </TableRow>
+      </template>
+    </TableBody>
+  </Table>
 </template>
 
 <style scoped>
