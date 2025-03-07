@@ -6,8 +6,6 @@ import StatusBar from "./layout/StatusBar.vue";
 
 const appStore = useAppStore();
 const { layoutSize, collapsed } = storeToRefs(appStore);
-
-const { onMouseDown } = useSelectBox();
 </script>
 
 <template>
@@ -21,7 +19,7 @@ const { onMouseDown } = useSelectBox();
     <template #2>
       <div class="h-full flex flex-col">
         <Header />
-        <main class="h-full overflow-auto" @mousedown="onMouseDown">
+        <main class="h-full overflow-auto">
           <FileTable />
         </main>
         <StatusBar />
