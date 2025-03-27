@@ -4,7 +4,7 @@ export interface UseSelectBoxOptions {
   showBox?: MaybeRefOrGetter<boolean>;
   triggerEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
   boundaryEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
-  // selectableSelector?: string;
+  selectableSelector?: string;
   onStart?: (e: MouseEvent) => void;
   onMove?: (e: MouseEvent) => void;
   onEnd?: (e: MouseEvent) => void;
@@ -15,7 +15,7 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
     showBox = true,
     triggerEl,
     boundaryEl,
-    // selectableSelector = "[data-selectable]",
+    selectableSelector = "[data-selectable]",
     onStart,
     onMove,
     onEnd,

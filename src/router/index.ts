@@ -7,7 +7,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: "/:locale?",
     component: RouterView,
-    beforeEnter: async (to, from, next) => {
+    beforeEnter: async (to, _from, next) => {
       const lang = to.params.locale as AvailableLocales;
       if (!i18n.global.availableLocales.includes(lang)) {
         return next(inferPreferredLocale());
