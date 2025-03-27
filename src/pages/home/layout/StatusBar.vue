@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="bg-secondary/50 p-xxs text-sm text-secondary-foreground">
+  <div class="cursor-default select-none bg-secondary/50 p-xxs text-sm text-secondary-foreground">
     status
   </div>
 </template>

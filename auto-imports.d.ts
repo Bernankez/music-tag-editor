@@ -326,6 +326,9 @@ declare global {
   export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
+  export type { UseSelectBoxOptions } from './src/composables/useSelectBox'
+  import('./src/composables/useSelectBox')
+  // @ts-ignore
   export type { AvailableLocales } from './src/utils/i18n'
   import('./src/utils/i18n')
 }

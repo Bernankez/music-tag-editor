@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { resolve } from "node:path";
 import { UtilsResolver } from "@bernankez/utils/resolver";
 import vue from "@vitejs/plugin-vue";
@@ -8,12 +10,14 @@ import Info from "unplugin-info/vite";
 import Components from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
 import VueDevTools from "vite-plugin-vue-devtools";
+import { VueMcp } from "vite-plugin-vue-mcp";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    VueMcp(),
     UnoCSS(),
     AutoImport({
       imports: [
@@ -41,5 +45,15 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
       "~": resolve(__dirname, "."),
     },
+  },
+  test: {
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/cypress/**",
+      "**/.{idea,git,cache,output,temp}/**",
+      "**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*",
+      "**/._*",
+    ],
   },
 });

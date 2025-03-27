@@ -1,12 +1,25 @@
+import type { MaybeComputedElementRef } from "@vueuse/core";
+
 export interface UseSelectBoxOptions {
   showBox?: MaybeRefOrGetter<boolean>;
+  triggerEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
+  boundaryEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
+  // selectableSelector?: string;
   onStart?: (e: MouseEvent) => void;
   onMove?: (e: MouseEvent) => void;
   onEnd?: (e: MouseEvent) => void;
 }
 
 export function useSelectBox(options?: UseSelectBoxOptions) {
-  const { showBox = true, onStart, onMove, onEnd } = options || {};
+  const {
+    showBox = true,
+    triggerEl,
+    boundaryEl,
+    // selectableSelector = "[data-selectable]",
+    onStart,
+    onMove,
+    onEnd,
+  } = options || {};
 
   const boxElRef = shallowRef<HTMLDivElement | null | undefined>();
 
@@ -61,15 +74,67 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
     boxElRef.value = undefined;
   }
 
+  function getElementsInSelection(): Element[] {
+    const left = Math.min(state.startX, state.x);
+    const top = Math.min(state.startY, state.y);
+    const right = Math.max(state.startX, state.x);
+    const bottom = Math.max(state.startY, state.y);
+
+    // 获取所有可选择的元素
+    const selectableElements = document.querySelectorAll(selectableSelector);
+    const selectedElements: Element[] = [];
+
+    selectableElements.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const elementLeft = rect.left + window.scrollX;
+      const elementTop = rect.top + window.scrollY;
+      const elementRight = rect.right + window.scrollX;
+      const elementBottom = rect.bottom + window.scrollY;
+
+      // 检查元素是否与选择框重叠
+      if (
+        elementLeft < right
+        && elementRight > left
+        && elementTop < bottom
+        && elementBottom > top
+      ) {
+        selectedElements.push(element);
+      }
+    });
+
+    return selectedElements;
+  }
+
   function updateBoxEl() {
     const div = boxElRef.value;
     if (!div) {
       return;
     }
-    const left = Math.min(state.startX, state.x);
-    const top = Math.min(state.startY, state.y);
-    const right = Math.max(state.startX, state.x);
-    const bottom = Math.max(state.startY, state.y);
+
+    let left = Math.min(state.startX, state.x);
+    let top = Math.min(state.startY, state.y);
+    let right = Math.max(state.startX, state.x);
+    let bottom = Math.max(state.startY, state.y);
+
+    // 如果设置了边界，则限制框选范围
+    const boundary = toValue(boundaryEl);
+    if (boundary) {
+      const rect = boundary.getBoundingClientRect();
+      const scrollX = window.scrollX;
+      const scrollY = window.scrollY;
+
+      // 转换为页面坐标
+      const boundaryLeft = rect.left + scrollX;
+      const boundaryTop = rect.top + scrollY;
+      const boundaryRight = rect.right + scrollX;
+      const boundaryBottom = rect.bottom + scrollY;
+
+      // 限制框选范围
+      left = Math.max(left, boundaryLeft);
+      top = Math.max(top, boundaryTop);
+      right = Math.min(right, boundaryRight);
+      bottom = Math.min(bottom, boundaryBottom);
+    }
 
     div.style.setProperty("--left", `${left}px`);
     div.style.setProperty("--top", `${top}px`);
@@ -99,6 +164,12 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
   });
 
   function onMouseDown(e: MouseEvent) {
+    // 检查事件是否发生在指定容器内
+    const trigger = toValue(triggerEl);
+    if (trigger && !trigger.contains(e.target as Node)) {
+      return;
+    }
+
     state.startX = e.pageX;
     state.startY = e.pageY;
     state.x = e.pageX;
@@ -109,14 +180,21 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
       state.x = e.pageX;
       state.y = e.pageY;
       state.show = true;
+
+      // 获取当前选中的元素
+      // const selectedElements = getElementsInSelection();
       onMove?.(e);
     });
 
-    const stopUpFn = useEventListener(window, "mouseup", () => {
+    const stopUpFn = useEventListener(window, "mouseup", (e) => {
       state.x = e.pageX;
       state.y = e.pageY;
       stopMoveFn();
       stopUpFn();
+
+      // 获取最终选中的元素
+      // const selectedElements = getElementsInSelection();
+
       state.show = false;
       onEnd?.(e);
     });
@@ -125,5 +203,6 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
   return {
     onMouseDown,
     isDragging: computed(() => state.show),
+    getSelectedElements: getElementsInSelection,
   };
 }
