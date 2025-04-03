@@ -24,6 +24,8 @@ export function useRowClicked<TData>(rowIds: MaybeRefOrGetter<string[]>) {
     Object.keys(rowSelection).forEach((key) => {
       unselect(key);
     });
+    lastSelectedRowId.value = undefined;
+    resetShiftStartIndex();
   }
 
   function select(id: string, emit = true) {

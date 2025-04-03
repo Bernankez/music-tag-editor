@@ -127,4 +127,20 @@ describe("useRowClicked", () => {
     rowClickedUtils.clear();
     expect(rowClickedUtils.rowSelection).toEqual({});
   });
+
+  it("should remove last selected row when clear", () => {
+    const row1 = createMockRow("row1", 0);
+    const row4 = createMockRow("row4", 3);
+    const row5 = createMockRow("row5", 4);
+    // click row4
+    rowClickedUtils.onRowClicked(clickEvent, row4);
+    // click row5 with shift
+    rowClickedUtils.onRowClicked(clickEventWithShift, row5);
+    expect(rowClickedUtils.rowSelection).toEqual({ row4: true, row5: true });
+    rowClickedUtils.clear();
+    expect(rowClickedUtils.rowSelection).toEqual({});
+    rowClickedUtils.onRowClicked(clickEvent, row1);
+    rowClickedUtils.onRowClicked(clickEventWithShift, row4);
+    expect(rowClickedUtils.rowSelection).toEqual({ row1: true, row2: true, row3: true, row4: true });
+  });
 });
