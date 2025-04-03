@@ -10,7 +10,7 @@ const { columns = [], data = [], getRowId } = defineProps<{
   getRowId?: (originalRow: TData) => string;
 }>();
 
-const { rowSelection, onRowClicked, clear: clearSelection } = useRowClicked(data.map((row, index) => {
+const { rowSelection, onRowClicked, clear: clearSelection } = useRowClicked<TData>(data.map((row, index) => {
   if (getRowId) {
     return getRowId(row);
   }
