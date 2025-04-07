@@ -1,9 +1,21 @@
 import type { MaybeComputedElementRef } from "@vueuse/core";
 
 export interface UseSelectBoxOptions {
+  /**
+   * Whether to show the select box
+   */
   showBox?: MaybeRefOrGetter<boolean>;
+  /**
+   * The element that triggers the select box
+   */
   triggerEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
+  /**
+   * The element that limits the select box
+   */
   boundaryEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
+  /**
+   * The selector of the elements that can be selected
+   */
   selectableSelector?: string;
   onStart?: (e: MouseEvent) => void;
   onMove?: (e: MouseEvent) => void;
@@ -116,20 +128,20 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
     let right = Math.max(state.startX, state.x);
     let bottom = Math.max(state.startY, state.y);
 
-    // 如果设置了边界，则限制框选范围
+    // If the boundary is set, limit the selection box
     const boundary = toValue(boundaryEl);
     if (boundary) {
       const rect = boundary.getBoundingClientRect();
       const scrollX = window.scrollX;
       const scrollY = window.scrollY;
 
-      // 转换为页面坐标
+      // Convert to page coordinates
       const boundaryLeft = rect.left + scrollX;
       const boundaryTop = rect.top + scrollY;
       const boundaryRight = rect.right + scrollX;
       const boundaryBottom = rect.bottom + scrollY;
 
-      // 限制框选范围
+      // Limit the selection box
       left = Math.max(left, boundaryLeft);
       top = Math.max(top, boundaryTop);
       right = Math.min(right, boundaryRight);

@@ -3,6 +3,13 @@ import type { AudioFile } from "./FileTableColumn";
 import { useFileTableColumn } from "./FileTableColumn";
 
 const tableRef = useTemplateRef("tableRef");
+const boundaryRef = useTemplateRef("boundaryRef");
+
+const { onMouseDown, updateBox } = useSelectBoxTemp({
+  boundaryEl: boundaryRef,
+});
+
+useEventListener(boundaryRef, "scroll", updateBox);
 
 const data = ref<AudioFile[]>([
   {
@@ -119,7 +126,7 @@ const { columns } = useFileTableColumn();
 </script>
 
 <template>
-  <div class="min-h-full min-w-full w-fit pb-sm" @click="tableRef?.clearSelection()">
+  <div ref="boundaryRef" class="relative min-h-full min-w-full overflow-auto pb-sm" @click="tableRef?.clearSelection()" @mousedown="onMouseDown">
     <MiniTable ref="tableRef" :columns :data @click.stop />
   </div>
 </template>

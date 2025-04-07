@@ -256,6 +256,7 @@ declare global {
   const useScroll: typeof import('@vueuse/core')['useScroll']
   const useScrollLock: typeof import('@vueuse/core')['useScrollLock']
   const useSelectBox: typeof import('./src/composables/useSelectBox')['useSelectBox']
+  const useSelectBoxTemp: typeof import('./src/composables/useSelectBoxTemp')['useSelectBoxTemp']
   const useSessionStorage: typeof import('@vueuse/core')['useSessionStorage']
   const useSettingsStore: typeof import('./src/store/settings')['useSettingsStore']
   const useShare: typeof import('@vueuse/core')['useShare']
@@ -326,8 +327,8 @@ declare global {
   export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
-  export type { UseSelectBoxOptions } from './src/composables/useSelectBox'
-  import('./src/composables/useSelectBox')
+  export type { UseSelectBoxOptions } from './src/composables/useSelectBoxTemp'
+  import('./src/composables/useSelectBoxTemp')
   // @ts-ignore
   export type { AvailableLocales } from './src/utils/i18n'
   import('./src/utils/i18n')
@@ -587,6 +588,7 @@ declare module 'vue' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useScrollLock: UnwrapRef<typeof import('@vueuse/core')['useScrollLock']>
     readonly useSelectBox: UnwrapRef<typeof import('./src/composables/useSelectBox')['useSelectBox']>
+    readonly useSelectBoxTemp: UnwrapRef<typeof import('./src/composables/useSelectBoxTemp')['useSelectBoxTemp']>
     readonly useSessionStorage: UnwrapRef<typeof import('@vueuse/core')['useSessionStorage']>
     readonly useSettingsStore: UnwrapRef<typeof import('./src/store/settings')['useSettingsStore']>
     readonly useShare: UnwrapRef<typeof import('@vueuse/core')['useShare']>
