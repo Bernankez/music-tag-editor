@@ -243,7 +243,8 @@ defineExpose({
 </template>
 
 <style scoped>
-.resizeTriggerWrapper {
+.resize-trigger-wrapper {
+  --z-index: 1;
   --size-width: 0;
   --size-height: 0;
 
@@ -260,6 +261,7 @@ defineExpose({
 
 .resize-trigger-wrapper::before {
   content: "";
+  z-index: var(--z-index);
   position: absolute;
   top: var(--before-top);
   right: var(--before-right);
@@ -271,6 +273,7 @@ defineExpose({
 
 .resize-trigger-wrapper::after {
   content: "";
+  z-index: var(--z-index);
   position: absolute;
   top: var(--after-top);
   right: var(--after-right);

@@ -2,6 +2,8 @@
 import type { AudioFile } from "./FileTableColumn";
 import { useFileTableColumn } from "./FileTableColumn";
 
+const tableRef = useTemplateRef("tableRef");
+
 const data = ref<AudioFile[]>([
   {
     id: "teatds",
@@ -117,5 +119,7 @@ const { columns } = useFileTableColumn();
 </script>
 
 <template>
-  <MiniTable :columns :data />
+  <div class="min-h-full min-w-full w-fit pb-sm" @click="tableRef?.clearSelection()">
+    <MiniTable ref="tableRef" :columns :data @click.stop />
+  </div>
 </template>
