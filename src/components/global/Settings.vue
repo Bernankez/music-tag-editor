@@ -67,28 +67,26 @@ async function switchLocale(val: AvailableLocales) {
               <FormLabel>{{ t('settings.theme.title') }}</FormLabel>
             </div>
             <FormControl>
-              <Tabs v-model="theme">
-                <TabsList>
-                  <TabsTrigger value="auto">
-                    <div class="flex items-center gap-1">
-                      <div class="i-ri:computer-line text-xs"></div>
-                      {{ t('settings.theme.system') }}
-                    </div>
-                  </TabsTrigger>
-                  <TabsTrigger value="light">
-                    <div class="flex items-center gap-1">
-                      <div class="i-ri:sun-line text-xs"></div>
-                      {{ t('settings.theme.light') }}
-                    </div>
-                  </TabsTrigger>
-                  <TabsTrigger value="dark">
-                    <div class="flex items-center gap-1">
-                      <div class="i-ri:moon-line text-xs"></div>
-                      {{ t('settings.theme.dark') }}
-                    </div>
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <Segment v-model="theme">
+                <SegmentTab value="auto">
+                  <div class="flex items-center gap-1">
+                    <div class="i-ri:computer-line text-xs"></div>
+                    {{ t('settings.theme.system') }}
+                  </div>
+                </SegmentTab>
+                <SegmentTab value="light">
+                  <div class="flex items-center gap-1">
+                    <div class="i-ri:sun-line text-xs"></div>
+                    {{ t('settings.theme.light') }}
+                  </div>
+                </SegmentTab>
+                <SegmentTab value="dark">
+                  <div class="flex items-center gap-1">
+                    <div class="i-ri:moon-line text-xs"></div>
+                    {{ t('settings.theme.dark') }}
+                  </div>
+                </SegmentTab>
+              </Segment>
             </FormControl>
           </FormItem>
         </FormField>

@@ -30,6 +30,8 @@ declare module 'vue' {
     ResizablePanelGroup: typeof import('./src/components/ui/resizable/ResizablePanelGroup.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Segment: typeof import('./src/components/ui/segment/Segment.vue')['default']
+    SegmentTab: typeof import('./src/components/ui/segment/SegmentTab.vue')['default']
     Select: typeof import('./src/components/ui/select/Select.vue')['default']
     SelectContent: typeof import('./src/components/ui/select/SelectContent.vue')['default']
     SelectGroup: typeof import('./src/components/ui/select/SelectGroup.vue')['default']
