@@ -179,6 +179,7 @@ declare global {
   const useDisplayMedia: typeof import('@vueuse/core')['useDisplayMedia']
   const useDocumentVisibility: typeof import('@vueuse/core')['useDocumentVisibility']
   const useDraggable: typeof import('@vueuse/core')['useDraggable']
+  const useDraggableTableSelection: typeof import('./src/composables/useDraggableTableSelection')['useDraggableTableSelection']
   const useDropZone: typeof import('@vueuse/core')['useDropZone']
   const useElementBounding: typeof import('@vueuse/core')['useElementBounding']
   const useElementByPoint: typeof import('@vueuse/core')['useElementByPoint']
@@ -256,7 +257,7 @@ declare global {
   const useScroll: typeof import('@vueuse/core')['useScroll']
   const useScrollLock: typeof import('@vueuse/core')['useScrollLock']
   const useSelectBox: typeof import('./src/composables/useSelectBox')['useSelectBox']
-  const useSelectBoxTemp: typeof import('./src/composables/useSelectBoxTemp')['useSelectBoxTemp']
+  const useSelectBoxTemp: typeof import('./src/composables/useSelectBox')['useSelectBoxTemp']
   const useSessionStorage: typeof import('@vueuse/core')['useSessionStorage']
   const useSettingsStore: typeof import('./src/store/settings')['useSettingsStore']
   const useShare: typeof import('@vueuse/core')['useShare']
@@ -327,8 +328,11 @@ declare global {
   export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
+  export type { MiniTableInstance } from './src/composables/useDraggableTableSelection'
+  import('./src/composables/useDraggableTableSelection')
+  // @ts-ignore
   export type { UseSelectBoxOptions } from './src/composables/useSelectBoxTemp'
-  import('./src/composables/useSelectBoxTemp')
+  import('./src/composables/useSelectBox')
   // @ts-ignore
   export type { AvailableLocales } from './src/utils/i18n'
   import('./src/utils/i18n')
@@ -395,7 +399,6 @@ declare module 'vue' {
     readonly mapWritableState: UnwrapRef<typeof import('pinia')['mapWritableState']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
-    readonly noop: UnwrapRef<typeof import('@bernankez/utils')['noop']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
     readonly onBeforeRouteLeave: UnwrapRef<typeof import('vue-router')['onBeforeRouteLeave']>
@@ -512,6 +515,7 @@ declare module 'vue' {
     readonly useDisplayMedia: UnwrapRef<typeof import('@vueuse/core')['useDisplayMedia']>
     readonly useDocumentVisibility: UnwrapRef<typeof import('@vueuse/core')['useDocumentVisibility']>
     readonly useDraggable: UnwrapRef<typeof import('@vueuse/core')['useDraggable']>
+    readonly useDraggableTableSelection: UnwrapRef<typeof import('./src/composables/useDraggableTableSelection')['useDraggableTableSelection']>
     readonly useDropZone: UnwrapRef<typeof import('@vueuse/core')['useDropZone']>
     readonly useElementBounding: UnwrapRef<typeof import('@vueuse/core')['useElementBounding']>
     readonly useElementByPoint: UnwrapRef<typeof import('@vueuse/core')['useElementByPoint']>
@@ -589,7 +593,7 @@ declare module 'vue' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useScrollLock: UnwrapRef<typeof import('@vueuse/core')['useScrollLock']>
     readonly useSelectBox: UnwrapRef<typeof import('./src/composables/useSelectBox')['useSelectBox']>
-    readonly useSelectBoxTemp: UnwrapRef<typeof import('./src/composables/useSelectBoxTemp')['useSelectBoxTemp']>
+    readonly useSelectBoxTemp: UnwrapRef<typeof import('./src/composables/useSelectBox')['useSelectBoxTemp']>
     readonly useSessionStorage: UnwrapRef<typeof import('@vueuse/core')['useSessionStorage']>
     readonly useSettingsStore: UnwrapRef<typeof import('./src/store/settings')['useSettingsStore']>
     readonly useShare: UnwrapRef<typeof import('@vueuse/core')['useShare']>

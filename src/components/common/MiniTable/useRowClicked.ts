@@ -102,5 +102,7 @@ export function useRowClicked<TData>(rowIds: MaybeRefOrGetter<string[]>) {
     rowSelection,
     onRowClicked,
     clear,
+    select,
+    unselect,
   };
 }

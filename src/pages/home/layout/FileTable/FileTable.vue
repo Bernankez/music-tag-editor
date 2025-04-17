@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import type { AudioFile } from "./FileTableColumn";
+import { useDraggableTableSelection } from "@/composables/useDraggableTableSelection";
 import { useFileTableColumn } from "./FileTableColumn";
 
 const tableRef = useTemplateRef("tableRef");
 const boundaryRef = useTemplateRef("boundaryRef");
-
-const { onMouseDown, updateBox } = useSelectBoxTemp({
-  boundaryEl: boundaryRef,
-});
-
-useEventListener(boundaryRef, "scroll", updateBox);
 
 const data = ref<AudioFile[]>([
   {
@@ -123,10 +118,20 @@ const data = ref<AudioFile[]>([
 ]);
 
 const { columns } = useFileTableColumn();
+
+const { handleMouseDown, handleClickBlank } = useDraggableTableSelection({
+  tableRef,
+  boundaryRef,
+});
 </script>
 
 <template>
-  <div ref="boundaryRef" class="relative min-h-full min-w-full overflow-auto pb-sm" @click="tableRef?.clearSelection()" @mousedown="onMouseDown">
+  <div
+    ref="boundaryRef"
+    class="relative min-h-full min-w-full overflow-auto pb-sm"
+    @click="handleClickBlank"
+    @mousedown="handleMouseDown"
+  >
     <MiniTable ref="tableRef" :columns :data @click.stop />
   </div>
 </template>

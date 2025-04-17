@@ -10,7 +10,7 @@ const { columns = [], data = [], getRowId } = defineProps<{
   getRowId?: (originalRow: TData) => string;
 }>();
 
-const { rowSelection, onRowClicked, clear: clearSelection } = useRowClicked<TData>(data.map((row, index) => {
+const { rowSelection, onRowClicked, clear: clearSelection, select, unselect } = useRowClicked<TData>(data.map((row, index) => {
   if (getRowId) {
     return getRowId(row);
   }
@@ -34,8 +34,15 @@ const table = useVueTable({
   },
 });
 
+function getSelectedRowIds() {
+  return Object.keys(rowSelection).filter(id => rowSelection[id]);
+}
+
 defineExpose({
   clearSelection,
+  select,
+  unselect,
+  getSelectedRowIds,
 });
 </script>
 
@@ -51,7 +58,7 @@ defineExpose({
     </TableHeader>
     <TableBody>
       <template v-if="table.getRowModel().rows.length">
-        <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :data-state="row.getIsSelected() ? 'selected' : undefined" data-selectable class="file-row cursor-default select-none" @click="onRowClicked($event, row)">
+        <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :data-state="row.getIsSelected() ? 'selected' : undefined" :data-id="row.id" data-selectable class="file-row cursor-default select-none" @click="onRowClicked($event, row)">
           <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" :style="{ width: `${cell.column.getSize()}px` }" :class="[row.getIsSelected() ? 'bg-primary text-primary-foreground' : '']">
             <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
           </TableCell>

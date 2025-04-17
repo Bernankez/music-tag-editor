@@ -29,70 +29,70 @@ export function useFileTableColumn() {
       accessorKey: "filename",
       header: () => <div>{ t("audio.filename.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue("filename") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue("filename") }</div>;
       },
     },
     {
       accessorKey: "filepath",
       header: () => <div>{ t("audio.filepath.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue("filepath") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue("filepath") }</div>;
       },
     },
     {
       accessorKey: "tag.title",
       header: () => <div>{ t("audio.tag.title.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue<AudioTag>("tag_title") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue<AudioTag>("tag_title") }</div>;
       },
     },
     {
       accessorKey: "tag.artist",
       header: () => <div>{ t("audio.tag.artist.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue<AudioTag>("tag_artist") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue<AudioTag>("tag_artist") }</div>;
       },
     },
     {
       accessorKey: "tag.album",
       header: () => <div>{ t("audio.tag.album.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue<AudioTag>("tag_album") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue<AudioTag>("tag_album") }</div>;
       },
     },
     {
       accessorKey: "tag.year",
       header: () => <div>{ t("audio.tag.year.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue<AudioTag>("tag_year") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue<AudioTag>("tag_year") }</div>;
       },
     },
     {
       accessorKey: "tag.comment",
       header: () => <div>{ t("audio.tag.comment.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue<AudioTag>("tag_comment") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue<AudioTag>("tag_comment") }</div>;
       },
     },
     {
       accessorKey: "duration",
       header: () => <div>{ t("audio.duration.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue("duration") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue("duration") }</div>;
       },
     },
     {
       accessorKey: "size",
       header: () => <div>{ t("audio.size.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue("size") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue("size") }</div>;
       },
     },
     {
       accessorKey: "updateTime",
       header: () => <div>{ t("audio.updateTime.title") }</div>,
       cell: ({ row }) => {
-        return <div class="font-medium">{ row.getValue("updateTime") }</div>;
+        return <div class="w-fit font-medium">{ row.getValue("updateTime") }</div>;
       },
     },
   ]);

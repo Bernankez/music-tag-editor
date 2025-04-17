@@ -2,19 +2,25 @@ import type { MaybeComputedElementRef } from "@vueuse/core";
 
 export interface UseSelectBoxOptions {
   /**
-   * Whether to show the select box
+   * 是否显示选择框
    */
   showBox?: MaybeRefOrGetter<boolean>;
   /**
-   * The element that triggers the select box
+   * 是否固定选择框的起点（相对于boundaryEl）
+   * @default true
    */
-  triggerEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
+  fixStartAnchor?: MaybeRefOrGetter<boolean>;
   /**
-   * The element that limits the select box
+   * 选择框的挂载元素
+   * @default document.body
+   */
+  containerEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
+  /**
+   * 限制选择框的元素
    */
   boundaryEl?: MaybeComputedElementRef<HTMLElement | null | undefined>;
   /**
-   * The selector of the elements that can be selected
+   * 可选择元素的选择器
    */
   selectableSelector?: string;
   onStart?: (e: MouseEvent) => void;
@@ -22,21 +28,11 @@ export interface UseSelectBoxOptions {
   onEnd?: (e: MouseEvent) => void;
 }
 
-export function useSelectBox(options?: UseSelectBoxOptions) {
-  const {
-    showBox = true,
-    triggerEl,
-    boundaryEl,
-    selectableSelector = "[data-selectable]",
-    onStart,
-    onMove,
-    onEnd,
-  } = options || {};
+export function useSelectBoxTemp(options?: UseSelectBoxOptions) {
+  const { showBox = true, fixStartAnchor = true, containerEl, boundaryEl, selectableSelector = "[data-selectable]", onStart, onMove, onEnd } = options ?? {};
 
-  const boxElRef = shallowRef<HTMLDivElement | null | undefined>();
-
-  const state = reactive({
-    position: "fixed",
+  const boxState = reactive({
+    position: "absolute",
     borderWidth: "1px",
     borderStyle: "solid",
     borderColor: "hsl(var(--primary))",
@@ -44,6 +40,8 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
     zIndex: 999,
     startX: 0,
     startY: 0,
+    startScrollX: 0,
+    startScrollY: 0,
     x: 0,
     y: 0,
     show: false,
@@ -51,10 +49,24 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
 
   const mounted = useMounted();
 
-  function initBoxEl() {
+  const boxElRef = shallowRef<HTMLDivElement>();
+  const containerRef = computed(() => {
+    if (isDefined(containerEl)) {
+      return toValue(containerEl);
+    }
+    if (mounted.value) {
+      return document.body;
+    }
+    return undefined;
+  });
+
+  /**
+   * 初始化选择框
+   */
+  function initBox() {
     const div = document.createElement("div");
 
-    // defs
+    // defines
     div.style.setProperty("position", "var(--position)");
 
     div.style.setProperty("left", "var(--left)");
@@ -74,25 +86,110 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
     div.style.setProperty("box-sizing", "border-box");
 
     boxElRef.value = div;
-    document.body.appendChild(div);
+
+    containerRef.value?.appendChild(div);
   }
 
-  function disposeBoxEl() {
+  /**
+   * 销毁选择框
+   */
+  function disposeBox() {
+    if (boxElRef.value) {
+      containerRef.value?.removeChild(boxElRef.value);
+      boxElRef.value = undefined;
+    }
+  }
+
+  /**
+   * 更新选择框
+   */
+  function updateBox() {
     const div = boxElRef.value;
     if (!div) {
       return;
     }
-    document.body.removeChild(div);
-    boxElRef.value = undefined;
+
+    const { left, top, right, bottom } = getBoxPosition();
+
+    // 使watchEffect追踪
+    const renderState = {
+      "--left": `${left}px`,
+      "--top": `${top}px`,
+      "--right": `${window.innerWidth - right}px`,
+      "--bottom": `${window.innerHeight - bottom}px`,
+
+      "--border-width": boxState.borderWidth,
+      "--border-style": boxState.borderStyle,
+      "--border-color": boxState.borderColor,
+      "--background-color": boxState.backgroundColor,
+      "--z-index": boxState.zIndex.toString(),
+      "--position": boxState.position,
+      "display": boxState.show ? "block" : "none",
+    };
+
+    requestAnimationFrame(() => {
+      Object.entries(renderState).forEach(([key, value]) => {
+        div.style.setProperty(key, value);
+      });
+    });
   }
 
-  function getElementsInSelection(): Element[] {
-    const left = Math.min(state.startX, state.x);
-    const top = Math.min(state.startY, state.y);
-    const right = Math.max(state.startX, state.x);
-    const bottom = Math.max(state.startY, state.y);
+  function getBoxPosition() {
+    const boundary = toValue(boundaryEl);
+    const { scrollLeft = 0, scrollTop = 0 } = boundary ?? {};
+    const scrollX = scrollLeft - boxState.startScrollX;
+    const scrollY = scrollTop - boxState.startScrollY;
 
-    // 获取所有可选择的元素
+    const startX = toValue(fixStartAnchor) ? boxState.startX - scrollX : boxState.startX;
+    const startY = toValue(fixStartAnchor) ? boxState.startY - scrollY : boxState.startY;
+
+    let left = Math.min(startX, boxState.x);
+    let top = Math.min(startY, boxState.y);
+    let right = Math.max(startX, boxState.x);
+    let bottom = Math.max(startY, boxState.y);
+
+    if (boundary) {
+      const rect = boundary.getBoundingClientRect();
+      const scrollX = window.scrollX;
+      const scrollY = window.scrollY;
+
+      // 转换为页面坐标
+      const boundaryLeft = rect.left + scrollX;
+      const boundaryTop = rect.top + scrollY;
+      const boundaryRight = rect.right + scrollX;
+      const boundaryBottom = rect.bottom + scrollY;
+
+      // 限制选择框
+      left = Math.max(left, boundaryLeft);
+      top = Math.max(top, boundaryTop);
+      right = Math.min(right, boundaryRight);
+      bottom = Math.min(bottom, boundaryBottom);
+    }
+
+    return {
+      left,
+      top,
+      right,
+      bottom,
+    };
+  }
+
+  watchEffect(() => {
+    if (toValue(showBox) && mounted.value) {
+      initBox();
+    } else {
+      disposeBox();
+    }
+  });
+
+  watchEffect(() => {
+    if (toValue(showBox)) {
+      updateBox();
+    }
+  });
+
+  function getElementsInSelection(): Element[] {
+    const { left, top, right, bottom } = getBoxPosition();
     const selectableElements = document.querySelectorAll(selectableSelector);
     const selectedElements: Element[] = [];
 
@@ -103,13 +200,7 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
       const elementRight = rect.right + window.scrollX;
       const elementBottom = rect.bottom + window.scrollY;
 
-      // 检查元素是否与选择框重叠
-      if (
-        elementLeft < right
-        && elementRight > left
-        && elementTop < bottom
-        && elementBottom > top
-      ) {
+      if (elementLeft < right && elementRight > left && elementTop < bottom && elementBottom > top) {
         selectedElements.push(element);
       }
     });
@@ -117,104 +208,42 @@ export function useSelectBox(options?: UseSelectBoxOptions) {
     return selectedElements;
   }
 
-  function updateBoxEl() {
-    const div = boxElRef.value;
-    if (!div) {
-      return;
-    }
-
-    let left = Math.min(state.startX, state.x);
-    let top = Math.min(state.startY, state.y);
-    let right = Math.max(state.startX, state.x);
-    let bottom = Math.max(state.startY, state.y);
-
-    // If the boundary is set, limit the selection box
-    const boundary = toValue(boundaryEl);
-    if (boundary) {
-      const rect = boundary.getBoundingClientRect();
-      const scrollX = window.scrollX;
-      const scrollY = window.scrollY;
-
-      // Convert to page coordinates
-      const boundaryLeft = rect.left + scrollX;
-      const boundaryTop = rect.top + scrollY;
-      const boundaryRight = rect.right + scrollX;
-      const boundaryBottom = rect.bottom + scrollY;
-
-      // Limit the selection box
-      left = Math.max(left, boundaryLeft);
-      top = Math.max(top, boundaryTop);
-      right = Math.min(right, boundaryRight);
-      bottom = Math.min(bottom, boundaryBottom);
-    }
-
-    div.style.setProperty("--left", `${left}px`);
-    div.style.setProperty("--top", `${top}px`);
-    div.style.setProperty("--right", `${window.innerWidth - right}px`);
-    div.style.setProperty("--bottom", `${window.innerHeight - bottom}px`);
-    div.style.setProperty("--border-width", state.borderWidth);
-    div.style.setProperty("--border-style", state.borderStyle);
-    div.style.setProperty("--border-color", state.borderColor);
-    div.style.setProperty("--background-color", state.backgroundColor);
-    div.style.setProperty("--z-index", state.zIndex.toString());
-    div.style.setProperty("--position", state.position);
-    div.style.setProperty("display", state.show ? "block" : "none");
-  }
-
-  watchEffect(() => {
-    if (toValue(showBox) && mounted.value) {
-      initBoxEl();
-    } else {
-      disposeBoxEl();
-    }
-  });
-
-  watchEffect(() => {
-    if (toValue(showBox)) {
-      updateBoxEl();
-    }
-  });
-
   function onMouseDown(e: MouseEvent) {
-    // 检查事件是否发生在指定容器内
-    const trigger = toValue(triggerEl);
-    if (trigger && !trigger.contains(e.target as Node)) {
-      return;
-    }
+    const boundary = toValue(boundaryEl);
+    const { scrollLeft = 0, scrollTop = 0 } = boundary ?? {};
 
-    state.startX = e.pageX;
-    state.startY = e.pageY;
-    state.x = e.pageX;
-    state.y = e.pageY;
+    boxState.startX = e.pageX;
+    boxState.startY = e.pageY;
+    boxState.startScrollX = scrollLeft;
+    boxState.startScrollY = scrollTop;
+    boxState.x = e.pageX;
+    boxState.y = e.pageY;
     onStart?.(e);
 
     const stopMoveFn = useEventListener(window, "mousemove", (e) => {
-      state.x = e.pageX;
-      state.y = e.pageY;
-      state.show = true;
-
-      // 获取当前选中的元素
-      // const selectedElements = getElementsInSelection();
+      boxState.x = e.pageX;
+      boxState.y = e.pageY;
+      boxState.show = true;
       onMove?.(e);
     });
 
     const stopUpFn = useEventListener(window, "mouseup", (e) => {
-      state.x = e.pageX;
-      state.y = e.pageY;
+      boxState.x = e.pageX;
+      boxState.y = e.pageY;
       stopMoveFn();
       stopUpFn();
-
-      // 获取最终选中的元素
-      // const selectedElements = getElementsInSelection();
-
-      state.show = false;
+      boxState.show = false;
       onEnd?.(e);
     });
   }
 
   return {
     onMouseDown,
-    isDragging: computed(() => state.show),
-    getSelectedElements: getElementsInSelection,
+    isDragging: computed(() => boxState.show),
+    getElementsInSelection,
+
+    initBox,
+    disposeBox,
+    updateBox,
   };
 }
